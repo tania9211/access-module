@@ -14,8 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "player")
-public class Player extends AbstractEntity {
+@Table(name = "\"user\"")
+public class User extends AbstractEntity {
 	@Column(name = "password", nullable = false)
 	private String password;
 
@@ -26,11 +26,11 @@ public class Player extends AbstractEntity {
 	private String nickname;
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "player_role", joinColumns = { @JoinColumn(name = "player_id", nullable = false, updatable = false) },
+	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id", nullable = false, updatable = false) },
 	inverseJoinColumns = { @JoinColumn(name = "role_id", nullable = false, updatable = false) })
 	private Set<Role> roles = new HashSet<Role>();
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "player")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Permission> permissions = new HashSet<Permission>();
 
 	public Set<Role> getRoles() {

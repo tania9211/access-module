@@ -20,8 +20,8 @@ public class Permission extends AbstractEntity {
 	private UUID objectId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "player_id", nullable = true)
-	private Player player;
+	@JoinColumn(name = "user_id", nullable = true)
+	private User user;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id", nullable = true)
@@ -51,11 +51,11 @@ public class Permission extends AbstractEntity {
 		this.objectId = objectId;
 	}
 
-	public Player getUser() {
-		return player;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUser(Player user) {
-		this.player = user;
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

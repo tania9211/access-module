@@ -1,10 +1,6 @@
 package org.access.impl.entity;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
-import org.access.impl.bean.PlayerBean;
+import org.access.impl.bean.UserBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -30,10 +26,10 @@ public class Main {
 
 		ApplicationContext context = new ClassPathXmlApplicationContext(
 				"spring.xml");
-		PlayerBean registrationBean = (PlayerBean) context
-				.getBean("playerBean");
+		UserBean registrationBean = (UserBean) context
+				.getBean("userBean");
 		
-		Player player = new Player();
+		User player = new User();
 		player.setDateCreate("2345");
 		player.setDateModify("456");
 		player.setDeleted(false);
@@ -42,9 +38,9 @@ public class Main {
 		player.setVersion(2L);
 		player.setNickname("kotic");
 		
-		registrationBean.getPlayerRepository().save(player);
+		registrationBean.getUserRepository().save(player);
 		
-		Player player2 = registrationBean.getPlayerRepository().findByEmail("myKot");
+		User player2 = registrationBean.getUserRepository().findByEmail("myKot");
 		System.out.println(player.getNickname());
 	}
 

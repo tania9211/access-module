@@ -58,7 +58,7 @@
 	</bean> -->
 	
 		<!-- For bootstrapping the Spring Repository -->
-	<jpa:repositories base-package="org.access.impl.repo" />
+	<jpa:repositories base-package="org.access.impl.repository" />
 
 	<!-- Necessary to get the entity manager injected into the factory bean -->
 	<bean

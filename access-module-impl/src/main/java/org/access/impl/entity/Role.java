@@ -20,7 +20,7 @@ public class Role extends AbstractEntity {
 	private UUID creator_id;
 
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles")
-	private Set<Player> users = new HashSet<Player>();
+	private Set<User> users = new HashSet<User>();
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
 	private Set<Permission> permissions = new HashSet<Permission>();
@@ -41,11 +41,11 @@ public class Role extends AbstractEntity {
 		this.creator_id = creator_id;
 	}
 
-	public Set<Player> getUsers() {
+	public Set<User> getUsers() {
 		return users;
 	}
 
-	public void setUsers(Set<Player> users) {
+	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
 }
