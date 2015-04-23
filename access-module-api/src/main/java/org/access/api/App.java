@@ -1,4 +1,4 @@
-package org.access.root;
+package org.access.api;
 
 /**
  * Hello world!
