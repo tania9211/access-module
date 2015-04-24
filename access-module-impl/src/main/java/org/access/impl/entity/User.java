@@ -16,9 +16,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "\"user\"")
 public class User extends AbstractEntity {
-	@Column(name = "password", nullable = false)
-	private String password;
+	@Column(name = "hash", nullable = false)
+	private String hash;
 
+	@Column(name = "salt", nullable = false)
+	private String salt;
+	
 	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 
@@ -30,6 +33,22 @@ public class User extends AbstractEntity {
 	inverseJoinColumns = { @JoinColumn(name = "role_id", nullable = false, updatable = false) })
 	private Set<Role> roles = new HashSet<Role>();
 	
+	public String getHash() {
+		return hash;
+	}
+
+	public void setHash(String hash) {
+		this.hash = hash;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Permission> permissions = new HashSet<Permission>();
 
@@ -47,14 +66,6 @@ public class User extends AbstractEntity {
 
 	public void setPermissions(Set<Permission> permissions) {
 		this.permissions = permissions;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getEmail() {

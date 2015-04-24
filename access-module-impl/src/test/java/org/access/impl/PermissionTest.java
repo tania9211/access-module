@@ -34,7 +34,8 @@ public class PermissionTest {
 		user.setDateModify("456");
 		user.setDeleted(false);
 		user.setEmail(email);
-		user.setPassword("12345656");
+		user.setHash("2345");
+		user.setSalt("4567");
 		user.setVersion(2L);
 		user.setNickname(nickname);
 
@@ -70,7 +71,8 @@ public class PermissionTest {
 		user.setDateModify("456");
 		user.setDeleted(false);
 		user.setEmail(email);
-		user.setPassword("12345656");
+		user.setHash("2345");
+		user.setSalt("4567");
 		user.setVersion(2L);
 		user.setNickname(nickname);
 
