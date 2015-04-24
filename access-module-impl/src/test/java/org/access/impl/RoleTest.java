@@ -2,6 +2,8 @@ package org.access.impl;
 
 import static org.junit.Assert.*;
 
+import java.util.List;
+
 import org.access.impl.entity.Role;
 import org.access.impl.entity.User;
 import org.access.impl.repository.RoleRepository;
@@ -21,7 +23,7 @@ public class RoleTest {
 	private UserRepository userRepository;
 
 	@Test
-	public void testRoleEquals() {
+	public void testRoleFind() {
 		final String email = "tania@mail.ru";
 		final String nickname = "kitty";
 		User user = new User();
@@ -48,5 +50,8 @@ public class RoleTest {
 
 		Role resultRole = roleRepository.findByCreatorId(user.getId());
 		assertEquals(resultRole.getName(), roleName);
+		
+		List<Role> roles = roleRepository.findByName(roleName);
+		assertNotNull(roles);
 	}
 }

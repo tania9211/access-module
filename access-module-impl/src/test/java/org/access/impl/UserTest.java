@@ -16,7 +16,7 @@ public class UserTest {
 	private UserRepository userRepository;
 	
 	@Test
-	public void testUserEquals() {
+	public void testUserFind() {
 		final String email = "tania@mail.ru";
 		final String nickname = "kitty";
 		User user = new User();
