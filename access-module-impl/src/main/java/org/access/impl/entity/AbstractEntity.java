@@ -18,16 +18,16 @@ public class AbstractEntity {
 	@Column(name = "id", unique = true, nullable = false)
 	@Type(type = "pg-uuid")
 	protected UUID id;
-	
+
 	@Column(name = "date_created", nullable = false)
 	protected String dateCreated;
-	
+
 	@Column(name = "date_modified", nullable = false)
 	protected String dateModified;
-	
+
 	@Column(name = "version", nullable = false)
 	protected long version;
-	
+
 	@Column(name = "deleted")
 	protected boolean deleted;
 
@@ -61,5 +61,9 @@ public class AbstractEntity {
 
 	public void setDeleted(boolean deleted) {
 		this.deleted = deleted;
+	}
+
+	public UUID getId() {
+		return id;
 	}
 }

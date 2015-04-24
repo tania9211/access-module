@@ -17,7 +17,7 @@ public class Role extends AbstractEntity {
 	@Column(name = "name", unique = true, nullable = false)
 	private String name;
 	@Column(name = "creator_id", nullable = false)
-	private UUID creator_id;
+	private UUID creatorId;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
 	private Set<User> users = new HashSet<User>();
@@ -33,12 +33,12 @@ public class Role extends AbstractEntity {
 		this.name = name;
 	}
 
-	public UUID getCreator_id() {
-		return creator_id;
+	public UUID getCreatorId() {
+		return creatorId;
 	}
 
-	public void setCreator_id(UUID creator_id) {
-		this.creator_id = creator_id;
+	public void setCreatorId(UUID creatorId) {
+		this.creatorId = creatorId;
 	}
 
 	public Set<User> getUsers() {
