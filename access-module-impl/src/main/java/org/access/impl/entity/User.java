@@ -25,7 +25,7 @@ public class User extends AbstractEntity {
 	@Column(name = "nickname", unique = true, nullable = false)
 	private String nickname;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id", nullable = false, updatable = false) },
 	inverseJoinColumns = { @JoinColumn(name = "role_id", nullable = false, updatable = false) })
 	private Set<Role> roles = new HashSet<Role>();

@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name = "permission")
 public class Permission extends AbstractEntity {
 	@Column(name = "level")
-	private long level;
+	private byte level;
 	@Column(name = "type", unique = true, nullable = false)
 	private String type;
 	@Column(name = "object_id", unique = true, nullable = false)
@@ -27,11 +27,11 @@ public class Permission extends AbstractEntity {
 	@JoinColumn(name = "role_id", nullable = true)
 	private Role role;
 
-	public long getLevel() {
+	public byte getLevel() {
 		return level;
 	}
 
-	public void setLevel(long level) {
+	public void setLevel(byte level) {
 		this.level = level;
 	}
 

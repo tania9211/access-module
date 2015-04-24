@@ -19,39 +19,39 @@ public class AbstractEntity {
 	@Type(type = "pg-uuid")
 	protected UUID id;
 	
-	@Column(name = "date_create", nullable = false)
-	protected String dateCreate;
+	@Column(name = "date_created", nullable = false)
+	protected String dateCreated;
 	
-	@Column(name = "date_modify", nullable = false)
-	protected String dateModify;
+	@Column(name = "date_modified", nullable = false)
+	protected String dateModified;
 	
 	@Column(name = "version", nullable = false)
-	protected Long version;
+	protected long version;
 	
 	@Column(name = "deleted")
-	protected Boolean deleted;
+	protected boolean deleted;
 
 	public String getDateCreate() {
-		return dateCreate;
+		return dateCreated;
 	}
 
 	public void setDateCreate(String dateCreate) {
-		this.dateCreate = dateCreate;
+		this.dateCreated = dateCreate;
 	}
 
 	public String getDateModify() {
-		return dateModify;
+		return dateModified;
 	}
 
 	public void setDateModify(String dateModify) {
-		this.dateModify = dateModify;
+		this.dateModified = dateModify;
 	}
 
-	public Long getVersion() {
+	public long getVersion() {
 		return version;
 	}
 
-	public void setVersion(Long version) {
+	public void setVersion(long version) {
 		this.version = version;
 	}
 

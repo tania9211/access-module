@@ -19,7 +19,7 @@ public class Role extends AbstractEntity {
 	@Column(name = "creator_id", nullable = false)
 	private UUID creator_id;
 
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles")
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
 	private Set<User> users = new HashSet<User>();
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
