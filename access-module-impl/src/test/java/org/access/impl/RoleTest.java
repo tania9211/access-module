@@ -2,6 +2,8 @@ package org.access.impl;
 
 import static org.junit.Assert.*;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.access.impl.entity.Role;
@@ -27,8 +29,9 @@ public class RoleTest {
 		final String email = "tania@mail.ru";
 		final String nickname = "kitty";
 		User user = new User();
-		user.setDateCreate("2345");
-		user.setDateModify("456");
+		final Date date = Calendar.getInstance().getTime();
+		user.setDateCreate(date);
+		user.setDateModify(date);
 		user.setDeleted(false);
 		user.setEmail(email);
 		user.setHash("2345");
@@ -41,8 +44,9 @@ public class RoleTest {
 
 		Role role = new Role();
 		role.setCreatorId(user.getId());
-		role.setDateCreate("456");
-		role.setDateModify("345");
+		final Date date2 = Calendar.getInstance().getTime();
+		role.setDateCreate(date);
+		role.setDateModify(date);
 		role.setDeleted(false);
 		role.setName(roleName);
 		role.setVersion(1L);

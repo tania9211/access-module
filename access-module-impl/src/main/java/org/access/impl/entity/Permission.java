@@ -16,13 +16,13 @@ public class Permission extends AbstractEntity {
 	private byte level;
 	@Column(name = "type", unique = true, nullable = false)
 	private String type;
-	@Column(name = "object_id", unique = true, nullable = false)
+	@Column(name = "object_id")
 	private UUID objectId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = true)
 	private User user;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id", nullable = true)
 	private Role role;
@@ -33,6 +33,14 @@ public class Permission extends AbstractEntity {
 
 	public void setLevel(byte level) {
 		this.level = level;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
 	public String getType() {

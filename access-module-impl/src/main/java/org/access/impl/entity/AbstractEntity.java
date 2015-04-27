@@ -1,5 +1,6 @@
 package org.access.impl.entity;
 
+import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -20,10 +21,10 @@ public class AbstractEntity {
 	protected UUID id;
 
 	@Column(name = "date_created", nullable = false)
-	protected String dateCreated;
+	protected Date dateCreated;
 
 	@Column(name = "date_modified", nullable = false)
-	protected String dateModified;
+	protected Date dateModified;
 
 	@Column(name = "version", nullable = false)
 	protected long version;
@@ -31,19 +32,19 @@ public class AbstractEntity {
 	@Column(name = "deleted")
 	protected boolean deleted;
 
-	public String getDateCreate() {
+	public Date getDateCreate() {
 		return dateCreated;
 	}
 
-	public void setDateCreate(String dateCreate) {
+	public void setDateCreate(Date dateCreate) {
 		this.dateCreated = dateCreate;
 	}
 
-	public String getDateModify() {
+	public Date getDateModify() {
 		return dateModified;
 	}
 
-	public void setDateModify(String dateModify) {
+	public void setDateModify(Date dateModify) {
 		this.dateModified = dateModify;
 	}
 
