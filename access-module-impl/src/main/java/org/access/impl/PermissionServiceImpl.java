@@ -8,9 +8,7 @@ import org.access.api.Level;
 import org.access.api.PermissionService;
 import org.access.api.entity.Role;
 import org.access.api.entity.User;
-import org.access.api.exceptions.NotActiveUserException;
-import org.access.api.exceptions.WrongRoleException;
-import org.access.api.exceptions.WrongUserExceprion;
+import org.access.api.exceptions.DataInsertionException;
 import org.access.impl.entity.Permission;
 import org.access.impl.entity.RoleImpl;
 import org.access.impl.entity.UserImpl;
@@ -33,21 +31,21 @@ public class PermissionServiceImpl implements PermissionService {
 
 	@Override
 	public void setRolePermission(Role role, Level level, UUID objectId,
-			String type) throws WrongRoleException {
+			String type) throws DataInsertionException {
 		if (role == null)
-			throw new WrongRoleException();
+			throw new DataInsertionException("Role is null");
 
 		setRolePermission(((RoleImpl) role).getName(), level, objectId, type);
 	}
 
 	@Override
 	public void setRolePermission(String roleName, Level level, UUID objectId,
-			String type) throws WrongRoleException {
+			String type) throws DataInsertionException {
 		final Permission permission = buildPermission(level.getValue(),
 				objectId, type);
 		final RoleImpl role = roleRepository.findByName(roleName);
 		if (role == null)
-			throw new WrongRoleException();
+			throw new DataInsertionException("Can not find role by roleName");
 		
 		permission.setRole(role);
 
@@ -73,15 +71,15 @@ public class PermissionServiceImpl implements PermissionService {
 
 	@Override
 	public void setUserPermission(UUID userId, Level level, UUID objectId,
-			String type) throws WrongUserExceprion, NotActiveUserException {
+			String type) throws DataInsertionException {
 		final Permission permission = buildPermission(level.getValue(),
 				objectId, type);
 		final UserImpl user = userRepository.findById(userId);
 
 		if (user == null)
-			throw new WrongUserExceprion();
+			throw new DataInsertionException("User is null");
 		if (!user.isActive())
-			throw new NotActiveUserException();
+			throw new DataInsertionException("User is not active");
 		permission.setUser(user);
 
 		Permission previousPermission;
@@ -106,9 +104,9 @@ public class PermissionServiceImpl implements PermissionService {
 
 	@Override
 	public void setUserPermission(User user, Level level, UUID objectId,
-			String type) throws WrongUserExceprion, NotActiveUserException {
+			String type) throws DataInsertionException {
 		if (user == null)
-			throw new WrongUserExceprion();
+			throw new DataInsertionException("User is null");
 
 		setUserPermission(((UserImpl) user).getId(), level, objectId, type);
 	}

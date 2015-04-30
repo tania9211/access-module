@@ -7,9 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.access.api.Level;
-import org.access.api.exceptions.NotActiveUserException;
-import org.access.api.exceptions.WrongRoleException;
-import org.access.api.exceptions.WrongUserExceprion;
+import org.access.api.exceptions.DataInsertionException;
 import org.access.impl.entity.RoleImpl;
 import org.access.impl.entity.UserImpl;
 import org.access.impl.entity.test.Animal;
@@ -136,7 +134,7 @@ public class PermissionServiceRoleTest {
 		try {
 			permissionServiceImpl.setRolePermission(role.getName(), Level.READ,
 					animal1.getId(), Animal.TYPE);
-		} catch (WrongRoleException e) {
+		} catch (DataInsertionException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -180,7 +178,7 @@ public class PermissionServiceRoleTest {
 		try {
 			permissionServiceImpl.setRolePermission(role, Level.READ_WRITE,
 					null, Animal.TYPE);
-		} catch (WrongRoleException e) {
+		} catch (DataInsertionException e) {
 			e.printStackTrace();
 		}
 
@@ -217,7 +215,7 @@ public class PermissionServiceRoleTest {
 		try {
 			permissionServiceImpl.setRolePermission(role, Level.READ_WRITE,
 					animal1.getId(), Animal.TYPE);
-		} catch (WrongRoleException e1) {
+		} catch (DataInsertionException e1) {
 			e1.printStackTrace();
 		}
 
@@ -237,7 +235,7 @@ public class PermissionServiceRoleTest {
 		try {
 			permissionServiceImpl.setRolePermission(role,
 					Level.READ_WRITE_DELETE, animal1.getId(), Animal.TYPE);
-		} catch (WrongRoleException e) {
+		} catch (DataInsertionException e) {
 			e.printStackTrace();
 		}
 
@@ -266,7 +264,7 @@ public class PermissionServiceRoleTest {
 		try {
 			permissionServiceImpl.setRolePermission(role, Level.READ,
 					animal1.getId(), Animal.TYPE);
-		} catch (WrongRoleException e1) {
+		} catch (DataInsertionException e1) {
 			e1.printStackTrace();
 		}
 
@@ -278,14 +276,14 @@ public class PermissionServiceRoleTest {
 		try {
 			permissionServiceImpl.setRolePermission(role, Level.READ_WRITE,
 					animal1.getId(), Animal.TYPE);
-		} catch (WrongRoleException e1) {
+		} catch (DataInsertionException e1) {
 			e1.printStackTrace();
 		}
 
 		try {
 			permissionServiceImpl.setRolePermission(role,
 					Level.READ_WRITE_DELETE, animal1.getId(), Animal.TYPE);
-		} catch (WrongRoleException e1) {
+		} catch (DataInsertionException e1) {
 			e1.printStackTrace();
 		}
 
@@ -293,7 +291,7 @@ public class PermissionServiceRoleTest {
 		try {
 			permissionServiceImpl.setRolePermission(role,
 					Level.READ_WRITE_DELETE, animal1.getId(), Animal.TYPE);
-		} catch (WrongRoleException e1) {
+		} catch (DataInsertionException e1) {
 			e1.printStackTrace();
 		}
 
@@ -301,14 +299,14 @@ public class PermissionServiceRoleTest {
 		try {
 			permissionServiceImpl.setRolePermission(role, Level.READ_WRITE,
 					animal1.getId(), Animal.TYPE);
-		} catch (WrongRoleException e1) {
+		} catch (DataInsertionException e1) {
 			e1.printStackTrace();
 		}
 
 		try {
 			permissionServiceImpl.setRolePermission(role, Level.READ,
 					animal1.getId(), Animal.TYPE);
-		} catch (WrongRoleException e1) {
+		} catch (DataInsertionException e1) {
 			e1.printStackTrace();
 		}
 	}

@@ -7,8 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.access.api.Level;
-import org.access.api.exceptions.NotActiveUserException;
-import org.access.api.exceptions.WrongUserExceprion;
+import org.access.api.exceptions.DataInsertionException;
 import org.access.impl.entity.RoleImpl;
 import org.access.impl.entity.UserImpl;
 import org.access.impl.entity.test.Animal;
@@ -68,17 +67,6 @@ public class PermissionServiceUserTest {
 
 		userRepository.save(user);
 
-		role = new RoleImpl();
-		role.setCreatorId(user.getId());
-		date = Calendar.getInstance().getTime();
-		role.setDateCreate(date);
-		role.setDateModify(date);
-		role.setDeleted(false);
-		role.setName("admin");
-		role.setVersion(1L);
-
-		roleRepository.save(role);
-
 		animal1 = new Animal();
 		animal1.setBreed("cat");
 		animal1.setName("Kitty");
@@ -136,9 +124,7 @@ public class PermissionServiceUserTest {
 		try {
 			permissionServiceImpl.setUserPermission(user.getId(), Level.READ,
 					animal1.getId(), Animal.TYPE);
-		} catch (WrongUserExceprion e) {
-			e.printStackTrace();
-		} catch (NotActiveUserException e) {
+		} catch (DataInsertionException e) {
 			e.printStackTrace();
 		}
 
@@ -180,9 +166,7 @@ public class PermissionServiceUserTest {
 		try {
 			permissionServiceImpl.setUserPermission(user, Level.READ_WRITE,
 					null, Animal.TYPE);
-		} catch (WrongUserExceprion e) {
-			e.printStackTrace();
-		} catch (NotActiveUserException e) {
+		} catch (DataInsertionException e) {
 			e.printStackTrace();
 		}
 
@@ -219,9 +203,7 @@ public class PermissionServiceUserTest {
 		try {
 			permissionServiceImpl.setUserPermission(user, Level.READ_WRITE,
 					animal1.getId(), Animal.TYPE);
-		} catch (WrongUserExceprion e) {
-			e.printStackTrace();
-		} catch (NotActiveUserException e) {
+		} catch (DataInsertionException e) {
 			e.printStackTrace();
 		}
 
@@ -241,9 +223,7 @@ public class PermissionServiceUserTest {
 		try {
 			permissionServiceImpl.setUserPermission(user,
 					Level.READ_WRITE_DELETE, animal1.getId(), Animal.TYPE);
-		} catch (WrongUserExceprion e) {
-			e.printStackTrace();
-		} catch (NotActiveUserException e) {
+		} catch (DataInsertionException e) {
 			e.printStackTrace();
 		}
 
@@ -272,9 +252,7 @@ public class PermissionServiceUserTest {
 		try {
 			permissionServiceImpl.setUserPermission(user, Level.READ,
 					animal1.getId(), Animal.TYPE);
-		} catch (WrongUserExceprion e) {
-			e.printStackTrace();
-		} catch (NotActiveUserException e) {
+		} catch (DataInsertionException e) {
 			e.printStackTrace();
 		}
 
@@ -286,18 +264,14 @@ public class PermissionServiceUserTest {
 		try {
 			permissionServiceImpl.setUserPermission(user, Level.READ_WRITE,
 					animal1.getId(), Animal.TYPE);
-		} catch (WrongUserExceprion e) {
-			e.printStackTrace();
-		} catch (NotActiveUserException e) {
+		} catch (DataInsertionException e) {
 			e.printStackTrace();
 		}
 
 		try {
 			permissionServiceImpl.setUserPermission(user,
 					Level.READ_WRITE_DELETE, animal1.getId(), Animal.TYPE);
-		} catch (WrongUserExceprion e) {
-			e.printStackTrace();
-		} catch (NotActiveUserException e) {
+		} catch (DataInsertionException e) {
 			e.printStackTrace();
 		}
 
@@ -305,9 +279,7 @@ public class PermissionServiceUserTest {
 		try {
 			permissionServiceImpl.setUserPermission(user,
 					Level.READ_WRITE_DELETE, animal1.getId(), Animal.TYPE);
-		} catch (WrongUserExceprion e) {
-			e.printStackTrace();
-		} catch (NotActiveUserException e) {
+		} catch (DataInsertionException e) {
 			e.printStackTrace();
 		}
 
@@ -315,18 +287,14 @@ public class PermissionServiceUserTest {
 		try {
 			permissionServiceImpl.setUserPermission(user, Level.READ_WRITE,
 					animal1.getId(), Animal.TYPE);
-		} catch (WrongUserExceprion e) {
-			e.printStackTrace();
-		} catch (NotActiveUserException e) {
+		} catch (DataInsertionException e) {
 			e.printStackTrace();
 		}
 
 		try {
 			permissionServiceImpl.setUserPermission(user, Level.READ,
 					animal1.getId(), Animal.TYPE);
-		} catch (WrongUserExceprion e) {
-			e.printStackTrace();
-		} catch (NotActiveUserException e) {
+		} catch (DataInsertionException e) {
 			e.printStackTrace();
 		}
 	}
@@ -342,9 +310,7 @@ public class PermissionServiceUserTest {
 		try {
 			permissionServiceImpl.setUserPermission(user, Level.READ,
 					animal1.getId(), Animal.TYPE);
-		} catch (WrongUserExceprion e) {
-			e.printStackTrace();
-		} catch (NotActiveUserException e) {
+		} catch (DataInsertionException e) {
 			e.printStackTrace();
 		}
 
@@ -361,9 +327,7 @@ public class PermissionServiceUserTest {
 		try {
 			permissionServiceImpl.setUserPermission(user, Level.READ,
 					animal1.getId(), Animal.TYPE);
-		} catch (WrongUserExceprion e) {
-			e.printStackTrace();
-		} catch (NotActiveUserException e) {
+		} catch (DataInsertionException e) {
 			e.printStackTrace();
 		}
 
