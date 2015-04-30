@@ -6,8 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.access.impl.entity.Role;
-import org.access.impl.entity.User;
+import org.access.impl.entity.RoleImpl;
+import org.access.impl.entity.UserImpl;
 import org.access.impl.repository.RoleRepository;
 import org.access.impl.repository.UserRepository;
 import org.junit.Test;
@@ -28,7 +28,7 @@ public class RoleTest {
 	public void testRoleFind() {
 		final String email = "tania@mail.ru";
 		final String nickname = "kitty";
-		User user = new User();
+		UserImpl user = new UserImpl();
 		final Date date = Calendar.getInstance().getTime();
 		user.setDateCreate(date);
 		user.setDateModify(date);
@@ -42,7 +42,7 @@ public class RoleTest {
 		userRepository.save(user);
 		final String roleName = "Some role name";
 
-		Role role = new Role();
+		RoleImpl role = new RoleImpl();
 		role.setCreatorId(user.getId());
 		final Date date2 = Calendar.getInstance().getTime();
 		role.setDateCreate(date);
@@ -53,10 +53,10 @@ public class RoleTest {
 
 		roleRepository.save(role);
 
-		Role resultRole = roleRepository.findByCreatorId(user.getId());
+		RoleImpl resultRole = roleRepository.findByCreatorId(user.getId());
 		assertEquals(resultRole.getName(), roleName);
 		
-		List<Role> roles = roleRepository.findByName(roleName);
+		RoleImpl roles = roleRepository.findByName(roleName);
 		assertNotNull(roles);
 	}
 }

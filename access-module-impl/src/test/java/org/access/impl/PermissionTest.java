@@ -8,16 +8,18 @@ import java.util.List;
 import java.util.UUID;
 
 import org.access.impl.entity.Permission;
-import org.access.impl.entity.User;
+import org.access.impl.entity.UserImpl;
 import org.access.impl.repository.PermissionRepository;
 import org.access.impl.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(org.springframework.test.context.junit4.SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:spring_config.xml")
+@Transactional
 public class PermissionTest {
 	@Autowired
 	private PermissionRepository permissionRepository;
@@ -32,7 +34,7 @@ public class PermissionTest {
 		final String nickname = "kitty";
 		final String type = "some type";
 
-		User user = new User();
+		UserImpl user = new UserImpl();
 		final Date date = Calendar.getInstance().getTime();
 		user.setDateCreate(date);
 		user.setDateModify(date);
@@ -71,7 +73,7 @@ public class PermissionTest {
 		final String nickname = "kitty";
 		final String type = "some type";
 
-		User user = new User();
+		UserImpl user = new UserImpl();
 		final Date date = Calendar.getInstance().getTime();
 		user.setDateCreate(date);
 		user.setDateModify(date);

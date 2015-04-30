@@ -18,19 +18,19 @@ public class AbstractEntity {
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@Column(name = "id", unique = true, nullable = false)
 	@Type(type = "pg-uuid")
-	protected UUID id;
+	private  UUID id;
 
 	@Column(name = "date_created", nullable = false)
-	protected Date dateCreated;
+	private Date dateCreated;
 
 	@Column(name = "date_modified", nullable = false)
-	protected Date dateModified;
+	private Date dateModified;
 
 	@Column(name = "version", nullable = false)
-	protected long version;
+	private long version;
 
 	@Column(name = "deleted")
-	protected boolean deleted;
+	private boolean deleted;
 
 	public Date getDateCreate() {
 		return dateCreated;

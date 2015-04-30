@@ -21,11 +21,11 @@ public class Permission extends AbstractEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = true)
-	private User user;
+	private UserImpl user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id", nullable = true)
-	private Role role;
+	private RoleImpl role;
 
 	public byte getLevel() {
 		return level;
@@ -35,11 +35,11 @@ public class Permission extends AbstractEntity {
 		this.level = level;
 	}
 
-	public Role getRole() {
+	public RoleImpl getRole() {
 		return role;
 	}
 
-	public void setRole(Role role) {
+	public void setRole(RoleImpl role) {
 		this.role = role;
 	}
 
@@ -59,11 +59,11 @@ public class Permission extends AbstractEntity {
 		this.objectId = objectId;
 	}
 
-	public User getUser() {
+	public UserImpl getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(UserImpl user) {
 		this.user = user;
 	}
 }

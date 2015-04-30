@@ -1,16 +1,16 @@
 package org.access.impl.repository;
 
-import java.util.List;
 import java.util.UUID;
 
-import org.access.impl.entity.Role;
-import org.access.impl.entity.User;
+import org.access.impl.entity.RoleImpl;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, UUID>{
-	public Role findByCreatorId(UUID creatorId);
+public interface RoleRepository extends JpaRepository<RoleImpl, UUID> {
+	public RoleImpl findByCreatorId(UUID creatorId);
 	
-	public List<Role> findByName(String name);
+	public RoleImpl findById(UUID id);
+
+	public RoleImpl findByName(String name);
 }

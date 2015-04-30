@@ -13,26 +13,38 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.access.api.entity.User;
+
 @Entity
 @Table(name = "\"user\"")
-public class User extends AbstractEntity {
+public class UserImpl extends AbstractEntity implements User {
 	@Column(name = "hash", nullable = false)
 	private String hash;
 
 	@Column(name = "salt", nullable = false)
 	private String salt;
-	
+
 	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 
 	@Column(name = "nickname", unique = true, nullable = false)
 	private String nickname;
 
+	@Column(name = "isActive")
+	private boolean isActive;
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@ManyToMany(cascade = CascadeType.PERSIST)
-	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id", nullable = false, updatable = false) },
-	inverseJoinColumns = { @JoinColumn(name = "role_id", nullable = false, updatable = false) })
-	private Set<Role> roles = new HashSet<Role>();
-	
+	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "role_id", nullable = false, updatable = false) })
+	private Set<RoleImpl> roles = new HashSet<RoleImpl>();
+
 	public String getHash() {
 		return hash;
 	}
@@ -52,11 +64,11 @@ public class User extends AbstractEntity {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Permission> permissions = new HashSet<Permission>();
 
-	public Set<Role> getRoles() {
+	public Set<RoleImpl> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<Role> roles) {
+	public void setRoles(Set<RoleImpl> roles) {
 		this.roles = roles;
 	}
 
