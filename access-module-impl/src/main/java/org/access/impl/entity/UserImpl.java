@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.access.api.entity.User;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "\"user\"")
@@ -33,6 +35,13 @@ public class UserImpl extends AbstractEntity implements User {
 	@Column(name = "isActive")
 	private boolean isActive;
 
+	@ManyToMany(cascade = CascadeType.PERSIST)
+	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "role_id", nullable = false, updatable = false) })
+	private Set<RoleImpl> roles = new HashSet<RoleImpl>();
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private Set<Token> tokens = new HashSet<Token>();
+
 	public boolean isActive() {
 		return isActive;
 	}
@@ -40,10 +49,6 @@ public class UserImpl extends AbstractEntity implements User {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-
-	@ManyToMany(cascade = CascadeType.PERSIST)
-	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "role_id", nullable = false, updatable = false) })
-	private Set<RoleImpl> roles = new HashSet<RoleImpl>();
 
 	public String getHash() {
 		return hash;
