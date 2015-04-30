@@ -1,6 +1,5 @@
 package org.access.impl.repository;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.access.impl.entity.UserImpl;

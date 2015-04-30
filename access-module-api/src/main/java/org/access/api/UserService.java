@@ -14,14 +14,19 @@ public interface UserService<T> {
 	 *            The nickname of the user
 	 * @param email
 	 *            The email of the user
+	 * @throws DataInsertionException
+	 *             If user has not unique nickname or email.
 	 */
-	public User create(String nickname, String email) throws DataInsertionException;
+	public User create(String nickname, String email)
+			throws DataInsertionException;
 
 	/**
 	 * Update user.
 	 * 
 	 * @param user
 	 *            The user which should be updated
+	 * @throws DataInsertionException
+	 *             If user has not unique nickname or email.
 	 */
 	public User update(User user) throws DataInsertionException;
 

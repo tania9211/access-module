@@ -18,7 +18,7 @@ public interface PermissionService {
 	 *            UUID of the object which you want to set permission
 	 * @param type
 	 *            Table which you want to set permission
-	 * @throws WrongRoleException
+	 * @throws DataInsertionException
 	 *             If role equals to null.
 	 */
 	public void setRolePermission(Role role, Level level, UUID objectId,
@@ -35,7 +35,7 @@ public interface PermissionService {
 	 *            UUID of the object which you want to set permission
 	 * @param type
 	 *            Table which you want to set permission
-	 * @throws WrongRoleException
+	 * @throws DataInsertionException
 	 *             If role equals to null.
 	 */
 	public void setRolePermission(String roleName, Level level, UUID objectId,
@@ -52,10 +52,8 @@ public interface PermissionService {
 	 *            UUID of the object which you want to set permission
 	 * @param type
 	 *            Table which you want to set permission
-	 * @throws WrongUserExceprion
-	 *             If user equals to null.
-	 * @throws NotActiveUserException
-	 *             If user is not active.
+	 * @throws DataInsertionException
+	 *             If user equals to null or user not active.
 	 */
 	public void setUserPermission(UUID userId, Level level, UUID objectId,
 			String type) throws DataInsertionException;
@@ -71,10 +69,8 @@ public interface PermissionService {
 	 *            UUID of the object which you want to set permission
 	 * @param type
 	 *            Table which you want to set permission
-	 * @throws WrongUserExceprion
-	 *             If user equals to null.
-	 * @throws NotActiveUserException
-	 *             If user is not active.
+	 * @throws DataInsertionException
+	 *             If user equals to null or user not active.
 	 */
 	public void setUserPermission(User user, Level level, UUID objectId,
 			String type) throws DataInsertionException;
