@@ -1,14 +1,13 @@
 package org.access.impl;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import org.access.api.UserService;
 import org.access.api.entity.User;
-import org.access.api.exceptions.DataInsertionException;
+import org.access.api.exception.DataInsertionException;
 import org.access.impl.entity.UserImpl;
+import org.access.impl.repository.TokenRepository;
 import org.access.impl.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,20 +17,15 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 
-	@Override
-	public User create(String nickname, String email)
-			throws DataInsertionException {
-		if (userRepository.findByEmail(email) != null)
-			throw new DataInsertionException(
-					"Email not unique, please choose another email.");
-		if (userRepository.findByNickname(nickname) != null)
-			throw new DataInsertionException(
-					"Nickname not unique, please choose another nickname.");
+	@Autowired
+	private TokenRepository tokenRepository;
 
+	@Override
+	public User create(String nickname, String email) {
 		final UserImpl user = new UserImpl();
-		final Date date = Calendar.getInstance().getTime();
-		user.setDateCreate(date);
-		user.setDateModify(date);
+		final long time = System.currentTimeMillis();
+		user.setDateCreated(time);
+		user.setDateModified(time);
 		user.setDeleted(false);
 		user.setHash("1234");
 		user.setSalt("1234");
@@ -41,24 +35,12 @@ public class UserServiceImpl implements UserService {
 		user.setEmail(email);
 		user.setActive(true);
 
-		userRepository.save(user);
-
-		return user;
+		return userRepository.save(user);
 	}
 
 	@Override
-	public User update(User user) throws DataInsertionException {
-		final UserImpl userImpl = (UserImpl) user;
-		if (userRepository.findByEmail(userImpl.getEmail()) != null)
-			throw new DataInsertionException(
-					"Email not unique, please choose another email.");
-		if (userRepository.findByNickname(userImpl.getNickname()) != null)
-			throw new DataInsertionException(
-					"Nickname not unique, please choose another nickname.");
-
-		UserImpl userImpls = userRepository.updateUser(userImpl.getNickname(),
-				userImpl.getEmail(), userImpl.getId());
-		return userImpl;
+	public User update(User user) {
+		return userRepository.save((UserImpl) user);
 	}
 
 	@Override
@@ -68,19 +50,22 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getById(UUID userId) {
-		UserImpl userImpl = userRepository.findById(userId);
-		return userImpl;
+		return userRepository.findById(userId);
 	}
 
 	@Override
 	public User getByEmail(String email) {
-		UserImpl userImpl = userRepository.findByEmail(email);
-		return userImpl;
+		return userRepository.findByEmail(email);
 	}
 
 	@Override
 	public List<UserImpl> list() {
-		List<UserImpl> list = userRepository.findAll();
-		return list;
+		return userRepository.findAll();
+	}
+
+	@Override
+	public void verify(String token) {
+		// ((UserImpl) user).setActive(true);
+		// / tokenRepository.delete(tokenRepository.findByToken(token));
 	}
 }

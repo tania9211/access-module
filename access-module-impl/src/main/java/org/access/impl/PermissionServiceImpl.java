@@ -8,7 +8,7 @@ import org.access.api.Level;
 import org.access.api.PermissionService;
 import org.access.api.entity.Role;
 import org.access.api.entity.User;
-import org.access.api.exceptions.DataInsertionException;
+import org.access.api.exception.DataInsertionException;
 import org.access.impl.entity.Permission;
 import org.access.impl.entity.RoleImpl;
 import org.access.impl.entity.UserImpl;
@@ -46,7 +46,7 @@ public class PermissionServiceImpl implements PermissionService {
 		final RoleImpl role = roleRepository.findByName(roleName);
 		if (role == null)
 			throw new DataInsertionException("Can not find role by roleName");
-		
+
 		permission.setRole(role);
 
 		Permission previousPermission;
@@ -136,7 +136,7 @@ public class PermissionServiceImpl implements PermissionService {
 	public boolean checkRolePermission(String roleName, String type,
 			UUID objectId, Level level) {
 		Permission permission;
-		
+
 		if (objectId == null) {
 			permission = permissionRepository.findRoleTablePermission(type,
 					level.getValue(), roleName);
@@ -157,8 +157,9 @@ public class PermissionServiceImpl implements PermissionService {
 		final Permission permission = new Permission();
 
 		final Date date = Calendar.getInstance().getTime();
-		permission.setDateCreate(date);
-		permission.setDateModify(date);
+		//final long time = System.currentTimeMillis();
+		//permission.setDateCreate(time);
+		//permission.setDateModify(time);
 		permission.setVersion(1L);
 		permission.setDeleted(false);
 

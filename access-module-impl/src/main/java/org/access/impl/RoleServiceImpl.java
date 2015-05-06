@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import org.access.api.RoleService;
 import org.access.api.entity.Role;
-import org.access.api.exceptions.DataInsertionException;
+import org.access.api.exception.DataInsertionException;
 import org.access.impl.entity.RoleImpl;
 import org.access.impl.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,34 +20,24 @@ public class RoleServiceImpl implements RoleService {
 	private RoleRepository roleRepository;
 
 	@Override
-	public Role create(String name, UUID creatorId)
-			throws DataInsertionException {
-		if (roleRepository.findByName(name) != null)
-			throw new DataInsertionException();
+	public Role create(String name, UUID creatorId) {
 
 		final RoleImpl roleImpl = new RoleImpl();
-		final Date date = Calendar.getInstance().getTime();
-		roleImpl.setDateCreate(date);
-		roleImpl.setDateModify(date);
+		//final long time = System.currentTimeMillis();
+	//	roleImpl.setDateCreate(time);
+	//	roleImpl.setDateModify(time);
 		roleImpl.setDeleted(false);
-		roleImpl.setVersion(1L);
+	//	roleImpl.setVersion(1L);
 
 		roleImpl.setName(name);
 		roleImpl.setCreatorId(creatorId);
 
-		roleRepository.save(roleImpl);
-
-		return roleImpl;
+		return roleRepository.save(roleImpl);
 	}
 
 	@Override
-	public Role update(Role role) throws DataInsertionException {
-		final RoleImpl roleImpl = (RoleImpl) role;
-		if (roleRepository.findByName(roleImpl.getName()) != null)
-			throw new DataInsertionException();
-		
-		return roleRepository.updateRole(roleImpl.getCreatorId(),
-				roleImpl.getName(), roleImpl.getId());
+	public Role update(Role role) {
+		return roleRepository.save((RoleImpl) role);
 	}
 
 	@Override

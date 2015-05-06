@@ -1,6 +1,9 @@
-package org.access.api.exceptions;
+package org.access.api.exception;
 
 public class DataInsertionException extends Exception {
+
+	private static final long serialVersionUID = 2090643159625295232L;
+
 	public DataInsertionException() {
 	}
 

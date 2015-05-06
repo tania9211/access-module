@@ -4,37 +4,32 @@ import java.util.List;
 import java.util.UUID;
 
 import org.access.api.entity.User;
-import org.access.api.exceptions.DataInsertionException;
+import org.access.api.exception.DataInsertionException;
 
-public interface UserService<T> {
+public interface UserService<T extends User> {
 	/**
 	 * Create new user.
 	 * 
 	 * @param nickname
 	 *            The nickname of the user
 	 * @param email
-	 *            The email of the user
-	 * @throws DataInsertionException
-	 *             If user has not unique nickname or email.
+	 *            The email of the user.
 	 */
-	public User create(String nickname, String email)
-			throws DataInsertionException;
+	public User create(String nickname, String email);
 
 	/**
 	 * Update user.
 	 * 
 	 * @param user
-	 *            The user which should be updated
-	 * @throws DataInsertionException
-	 *             If user has not unique nickname or email.
+	 *            The user which should be updated.
 	 */
-	public User update(User user) throws DataInsertionException;
+	public User update(User user);
 
 	/**
 	 * Delete user.
 	 * 
 	 * @param user
-	 *            The user which should be updated
+	 *            The user which should be updated.
 	 */
 	public void delete(User user);
 
@@ -42,7 +37,7 @@ public interface UserService<T> {
 	 * Get user by it is id.
 	 * 
 	 * @param userId
-	 *            Id of the user
+	 *            Id of the user.
 	 */
 	public User getById(UUID userId);
 
@@ -50,7 +45,7 @@ public interface UserService<T> {
 	 * Get user by it is email
 	 * 
 	 * @param email
-	 *            Email of the user
+	 *            Email of the user.
 	 */
 	public User getByEmail(String email);
 
@@ -58,4 +53,7 @@ public interface UserService<T> {
 	 * Get all active users.
 	 */
 	public List<T> list();
+	
+	
+	public void verify(String token);
 }

@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.access.api.entity.Role;
 import org.access.api.entity.User;
-import org.access.api.exceptions.DataInsertionException;
+import org.access.api.exception.DataInsertionException;
 
 public interface PermissionService {
 	/**
@@ -128,4 +128,5 @@ public interface PermissionService {
 	 *            Table which you want to set permission
 	 */
 	public boolean checkUserPermission(UUID userId, String type, Level level);
+
 }

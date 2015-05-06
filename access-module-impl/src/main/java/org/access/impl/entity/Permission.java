@@ -8,9 +8,10 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "permission")
+@Table(name = "permission", uniqueConstraints = { @UniqueConstraint(columnNames = "type") })
 public class Permission extends AbstractEntity {
 	@Column(name = "level")
 	private byte level;

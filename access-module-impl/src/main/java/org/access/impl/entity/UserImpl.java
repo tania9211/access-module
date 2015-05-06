@@ -7,18 +7,24 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.access.api.entity.User;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name = "\"user\"")
+@Table(name = "\"user\"", uniqueConstraints = {
+		@UniqueConstraint(columnNames = "email"),
+		@UniqueConstraint(columnNames = "nickname") })
+// @SQLDelete(sql="UPDATE \"user\" SET deleted = true WHERE id = ?")
+@SQLDelete(sql = "UPDATE \"user\" SET deleted = true WHERE id = ?")
+//@Where(clause = "deleted = false")
 public class UserImpl extends AbstractEntity implements User {
 	@Column(name = "hash", nullable = false)
 	private String hash;
@@ -38,7 +44,7 @@ public class UserImpl extends AbstractEntity implements User {
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "role_id", nullable = false, updatable = false) })
 	private Set<RoleImpl> roles = new HashSet<RoleImpl>();
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Token> tokens = new HashSet<Token>();
 

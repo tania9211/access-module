@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import org.access.api.Level;
-import org.access.api.exceptions.DataInsertionException;
+import org.access.api.exception.DataInsertionException;
 import org.access.impl.entity.RoleImpl;
 import org.access.impl.entity.UserImpl;
 import org.access.impl.entity.test.Animal;
@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @Transactional
-@ContextConfiguration(locations = "classpath:spring_config.xml")
+@ContextConfiguration(locations = "classpath:test_spring_config.xml")
 public class PermissionServiceRoleTest {
 	@Autowired
 	private RoleRepository roleRepository;
@@ -54,9 +54,9 @@ public class PermissionServiceRoleTest {
 	@Before
 	public void init() {
 		user = new UserImpl();
-		Date date = Calendar.getInstance().getTime();
-		user.setDateCreate(date);
-		user.setDateModify(date);
+	//	long time = System.currentTimeMillis();
+	//	user.setDateCreate(time);
+	//	user.setDateModify(time);
 		user.setDeleted(false);
 		user.setEmail("tania@mail.ru");
 		user.setHash("2345");
@@ -69,9 +69,9 @@ public class PermissionServiceRoleTest {
 
 		role = new RoleImpl();
 		role.setCreatorId(user.getId());
-		date = Calendar.getInstance().getTime();
-		role.setDateCreate(date);
-		role.setDateModify(date);
+	//	time = System.currentTimeMillis();
+	//	user.setDateCreate(time);
+//		user.setDateModify(time);
 		role.setDeleted(false);
 		role.setName("admin");
 		role.setVersion(1L);

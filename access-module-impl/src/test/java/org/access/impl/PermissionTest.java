@@ -35,10 +35,10 @@ public class PermissionTest {
 		final String type = "some type";
 
 		UserImpl user = new UserImpl();
-		final Date date = Calendar.getInstance().getTime();
-		user.setDateCreate(date);
-		user.setDateModify(date);
-		user.setDeleted(false);
+		//final long time = System.currentTimeMillis();
+	//	user.setDateCreate(time);
+	//	user.setDateModify(time);
+	//	user.setDeleted(false);
 		user.setEmail(email);
 		user.setHash("2345");
 		user.setSalt("4567");
@@ -48,9 +48,9 @@ public class PermissionTest {
 		userRepository.save(user);
 
 		Permission permission = new Permission();
-		final Date date2 = Calendar.getInstance().getTime();
-		permission.setDateCreate(date);
-		permission.setDateModify(date);
+	//	final long time2 = System.currentTimeMillis();
+//		user.setDateCreate(time2);
+	//	user.setDateModify(time2);
 		permission.setDeleted(false);
 		permission.setLevel((byte) 2);
 		permission.setObjectId(testUUID);
@@ -74,9 +74,9 @@ public class PermissionTest {
 		final String type = "some type";
 
 		UserImpl user = new UserImpl();
-		final Date date = Calendar.getInstance().getTime();
-		user.setDateCreate(date);
-		user.setDateModify(date);
+	//	final long time = System.currentTimeMillis();
+	//	user.setDateCreate(time);
+	//	user.setDateModify(time);
 		user.setDeleted(false);
 		user.setEmail(email);
 		user.setHash("2345");
@@ -87,9 +87,9 @@ public class PermissionTest {
 		userRepository.save(user);
 
 		Permission permission = new Permission();
-		final Date date2 = Calendar.getInstance().getTime();
-		permission.setDateCreate(date);
-		permission.setDateModify(date);
+	//	final long time3 = System.currentTimeMillis();
+	//	user.setDateCreate(time3);
+	//	user.setDateModify(time3);
 		permission.setDeleted(false);
 		permission.setLevel((byte) 2);
 		permission.setObjectId(testUUID);

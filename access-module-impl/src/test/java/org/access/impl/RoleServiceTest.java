@@ -8,7 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import org.access.api.exceptions.DataInsertionException;
+import org.access.api.exception.DataInsertionException;
 import org.access.impl.entity.RoleImpl;
 import org.access.impl.entity.UserImpl;
 import org.access.impl.repository.UserRepository;
@@ -18,12 +18,15 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(org.springframework.test.context.junit4.SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring_config.xml")
-@Transactional
+@ContextConfiguration(locations = "classpath:test_spring_config.xml")
+@DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class RoleServiceTest {
 	@Autowired
 	private RoleServiceImpl roleServiceImpl;
@@ -39,9 +42,9 @@ public class RoleServiceTest {
 	@Before
 	public void init() {
 		user = new UserImpl();
-		Date date = Calendar.getInstance().getTime();
-		user.setDateCreate(date);
-		user.setDateModify(date);
+	//	final long time = System.currentTimeMillis();
+//		user.setDateCreate(time);
+	//	user.setDateModify(time);
 		user.setDeleted(false);
 		user.setEmail("tania@mail.ru");
 		user.setHash("2345");
@@ -51,6 +54,24 @@ public class RoleServiceTest {
 		user.setActive(true);
 
 		userRepository.save(user);
+	}
+
+	@Test
+	public void test() {
+		RoleImpl roleImpl = (RoleImpl) roleServiceImpl.create("admin",
+				user.getId());
+
+		RoleImpl roleImpl1 = (RoleImpl) roleServiceImpl.create("user",
+				user.getId());
+		
+		roleServiceImpl.update(roleImpl1);
+		
+	//	roleServiceImpl.delete(roleImpl1);
+		
+		RoleImpl roleImpl2 = (RoleImpl) roleServiceImpl.create("user12",
+				user.getId());
+		
+		
 	}
 
 	@Test
@@ -64,13 +85,9 @@ public class RoleServiceTest {
 	 */
 	public void testGetRole() {
 		final String roleName = "admin";
-		RoleImpl roleImpl = null;
-		try {
-			roleImpl = (RoleImpl) roleServiceImpl
-					.create(roleName, user.getId());
-		} catch (DataInsertionException e) {
-			e.printStackTrace();
-		}
+
+		RoleImpl roleImpl = (RoleImpl) roleServiceImpl.create(roleName,
+				user.getId());
 
 		RoleImpl roleImpl2 = (RoleImpl) roleServiceImpl.getById(roleImpl
 				.getId());
@@ -83,7 +100,7 @@ public class RoleServiceTest {
 		roleImpl = null;
 		final List<RoleImpl> list = roleServiceImpl.list();
 		for (int i = 0; i < list.size(); i++) {
-			if (list.get(i).getName() == roleName)
+			if (list.get(i).getName().equals(roleName))
 				roleImpl = list.get(i);
 		}
 		assertNotNull(roleImpl);
@@ -98,14 +115,9 @@ public class RoleServiceTest {
 	 */
 	public void testDeleteRole() {
 		final String roleName = "admin";
+		RoleImpl roleImpl = (RoleImpl) roleServiceImpl.create(roleName,
+				user.getId());
 
-		RoleImpl roleImpl = null;
-		try {
-			roleImpl = (RoleImpl) roleServiceImpl
-					.create(roleName, user.getId());
-		} catch (DataInsertionException e) {
-			e.printStackTrace();
-		}
 		roleServiceImpl.delete(roleImpl);
 
 		RoleImpl roleImpl2 = (RoleImpl) roleServiceImpl.getById(roleImpl
@@ -128,41 +140,40 @@ public class RoleServiceTest {
 	@Test
 	/**
 	 * Create two roles with the same name.
-	 * @result expect DataInsertionException exception.
+	 * 
+	 * @result expect DataIntegrityViolationException exception.
 	 */
 	public void testUniqueNickname() {
 		final String roleName = "admin";
-		try {
-			RoleImpl roleImpl = (RoleImpl) roleServiceImpl.create(roleName,
-					user.getId());
 
-			RoleImpl roleImpl2 = (RoleImpl) roleServiceImpl.create(roleName,
-					user.getId());
-			expectedException.expect(DataInsertionException.class);
-		} catch (DataInsertionException e) {
-			e.printStackTrace();
-		}
+		expectedException.expect(DataIntegrityViolationException.class);
+
+		RoleImpl roleImpl = (RoleImpl) roleServiceImpl.create(roleName,
+				user.getId());
+
+		RoleImpl roleImpl2 = (RoleImpl) roleServiceImpl.create(roleName,
+				user.getId());
+
 	}
 
 	@Test
 	/**
-	 * Update nickname of second role to not unique.
-	 * @result expect DataInsertionException exception.
+	 * Update nickname of second role to not unique value.
+	 * 
+	 * @result expect DataIntegrityViolationException exception.
 	 */
 	public void testUpdateNickname() {
 		final String roleName = "admin";
-		try {
-			RoleImpl roleImpl = (RoleImpl) roleServiceImpl.create(roleName,
-					user.getId());
 
-			RoleImpl roleImpl2 = (RoleImpl) roleServiceImpl.create("user",
-					user.getId());
-			
-			roleImpl2.setName("admin");
-			//roleServiceImpl.update(roleImpl2);
-		//	expectedException.expect(DataInsertionException.class);
-		} catch (DataInsertionException e) {
-			e.printStackTrace();
-		}
+		expectedException.expect(DataIntegrityViolationException.class);
+
+		RoleImpl roleImpl = (RoleImpl) roleServiceImpl.create(roleName,
+				user.getId());
+
+		RoleImpl roleImpl2 = (RoleImpl) roleServiceImpl.create("user",
+				user.getId());
+
+		roleImpl2.setName("admin");
+		roleServiceImpl.update(roleImpl2);
 	}
 }

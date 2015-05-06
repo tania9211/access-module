@@ -29,9 +29,9 @@ public class RoleTest {
 		final String email = "tania@mail.ru";
 		final String nickname = "kitty";
 		UserImpl user = new UserImpl();
-		final Date date = Calendar.getInstance().getTime();
-		user.setDateCreate(date);
-		user.setDateModify(date);
+	//	final long time = System.currentTimeMillis();
+	//	user.setDateCreate(time);
+	//	user.setDateModify(time);
 		user.setDeleted(false);
 		user.setEmail(email);
 		user.setHash("2345");
@@ -44,9 +44,9 @@ public class RoleTest {
 
 		RoleImpl role = new RoleImpl();
 		role.setCreatorId(user.getId());
-		final Date date2 = Calendar.getInstance().getTime();
-		role.setDateCreate(date);
-		role.setDateModify(date);
+	//	final long time2 = System.currentTimeMillis();
+	//	user.setDateCreate(time2);
+	//	user.setDateModify(time2);
 		role.setDeleted(false);
 		role.setName(roleName);
 		role.setVersion(1L);
