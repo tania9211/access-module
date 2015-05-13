@@ -1,15 +1,17 @@
 package org.access.impl;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.access.api.TokenType;
-import org.access.api.annotation.Transactional;
 import org.access.impl.entity.Token;
-import org.access.impl.entity.UserImpl;
+import org.access.impl.entity.User;
 import org.access.impl.repository.TokenRepository;
 import org.access.impl.repository.UserRepository;
 import org.junit.Rule;
@@ -50,9 +52,9 @@ public class UserServiceTest {
 	 * @result id and other fields should be equals in saved and getter user.
 	 */
 	public void testCreateUser() {
-		final UserImpl user = (UserImpl) userServiceImpl.create("Vasia",
+		final User user = (User) userServiceImpl.create("Vasia",
 				"vasia@mail.ru");
-		final UserImpl user2 = userRepository.findById(user.getId());
+		final User user2 = userRepository.findById(user.getId());
 
 		assertEquals(user.getId(), user2.getId());
 		assertEquals(user.getNickname(), user2.getNickname());
@@ -68,12 +70,12 @@ public class UserServiceTest {
 	 * @result id and other fields should be equals in saved and getter user.
 	 */
 	public void testUpdateUser() {
-		UserImpl user = (UserImpl) userServiceImpl.create("Vasia",
+		User user = (User) userServiceImpl.create("Vasia",
 				"vasia@mail.ru");
 		user.setEmail("vasia123@mail.ru");
-		user = (UserImpl) userServiceImpl.update(user);
+		user = (User) userServiceImpl.update(user);
 
-		final UserImpl user2 = userRepository.findById(user.getId());
+		final User user2 = userRepository.findById(user.getId());
 
 		assertEquals(user.getId(), user2.getId());
 		assertEquals(user.getNickname(), user2.getNickname());
@@ -91,17 +93,17 @@ public class UserServiceTest {
 	 */
 	public void testGetUser() {
 		final String email = "vasia@mail.ru";
-		final UserImpl user = (UserImpl) userServiceImpl.create("Vasia", email);
+		final User user = (User) userServiceImpl.create("Vasia", email);
 
-		UserImpl resultUser = (UserImpl) userServiceImpl.getByEmail(email);
+		User resultUser = (User) userServiceImpl.getByEmail(email);
 		assertEquals(email, user.getEmail());
 
-		resultUser = (UserImpl) userServiceImpl.getById(user.getId());
+		resultUser = (User) userServiceImpl.getById(user.getId());
 		assertEquals(user.getId(), resultUser.getId());
 
 		/** check if list include user */
 		resultUser = null;
-		final List<UserImpl> list = userServiceImpl.list();
+		final List<User> list = userServiceImpl.list();
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getId().equals(user.getId()))
 				resultUser = list.get(i);
@@ -119,20 +121,20 @@ public class UserServiceTest {
 	public void testDeleteUser() {
 		final String email = "vasia@mail.ru";
 
-		final UserImpl user = (UserImpl) userServiceImpl.create("Vasia",
+		final User user = (User) userServiceImpl.create("Vasia",
 				"vasia@mail.ru");
 
 		userServiceImpl.delete(user);
 
-		UserImpl resultUser = (UserImpl) userServiceImpl.getByEmail(email);
+		User resultUser = (User) userServiceImpl.getByEmail(email);
 		assertNull(resultUser);
 
-		resultUser = (UserImpl) userServiceImpl.getById(user.getId());
+		resultUser = (User) userServiceImpl.getById(user.getId());
 		assertNull(resultUser);
 
 		/** check if list include user */
 		resultUser = null;
-		final List<UserImpl> list = userServiceImpl.list();
+		final List<User> list = userServiceImpl.list();
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getId().equals(user.getId()))
 				resultUser = list.get(i);
@@ -151,9 +153,9 @@ public class UserServiceTest {
 
 		expectedException.expect(DataIntegrityViolationException.class);
 
-		final UserImpl user = (UserImpl) userServiceImpl.create("VasiaFirst",
+		final User user = (User) userServiceImpl.create("VasiaFirst",
 				email);
-		final UserImpl user2 = (UserImpl) userServiceImpl.create("VasiaSecond",
+		final User user2 = (User) userServiceImpl.create("VasiaSecond",
 				email);
 	}
 
@@ -168,9 +170,9 @@ public class UserServiceTest {
 
 		expectedException.expect(DataIntegrityViolationException.class);
 
-		final UserImpl user = (UserImpl) userServiceImpl.create("VasiaFirst",
+		final User user = (User) userServiceImpl.create("VasiaFirst",
 				email);
-		final UserImpl user2 = (UserImpl) userServiceImpl.create("VasiaSecond",
+		final User user2 = (User) userServiceImpl.create("VasiaSecond",
 				"vasia123@mail.ru");
 
 		user2.setEmail(email);
@@ -188,9 +190,9 @@ public class UserServiceTest {
 
 		expectedException.expect(DataIntegrityViolationException.class);
 
-		final UserImpl user = (UserImpl) userServiceImpl.create(nickname,
+		final User user = (User) userServiceImpl.create(nickname,
 				"vasia@mail.ru");
-		final UserImpl user2 = (UserImpl) userServiceImpl.create(nickname,
+		final User user2 = (User) userServiceImpl.create(nickname,
 				"vasia123@mail.ru");
 	}
 
@@ -205,10 +207,10 @@ public class UserServiceTest {
 
 		expectedException.expect(DataIntegrityViolationException.class);
 
-		final UserImpl user = (UserImpl) userServiceImpl.create(nickname,
+		final User user = (User) userServiceImpl.create(nickname,
 				"vasia@mail.ru");
 
-		final UserImpl user2 = (UserImpl) userServiceImpl.create("VasiaSecond",
+		final User user2 = (User) userServiceImpl.create("VasiaSecond",
 				"vasia123@mail.ru");
 
 		user2.setNickname(nickname);
@@ -220,14 +222,14 @@ public class UserServiceTest {
 	 * Create user and update it. Check nickname and email of update user.
 	 */
 	public void testUpdate() {
-		UserImpl userImpl = (UserImpl) userServiceImpl.create("VasiaFirst",
+		User userImpl = (User) userServiceImpl.create("VasiaFirst",
 				"vasia@mail.ru");
 		final String nickname = "New nick";
 		userImpl.setNickname(nickname);
 		userServiceImpl.update(userImpl);
 
 		/** check user nikcname */
-		userImpl = (UserImpl) userServiceImpl.getById(userImpl.getId());
+		userImpl = (User) userServiceImpl.getById(userImpl.getId());
 		assertEquals(userImpl.getNickname(), nickname);
 
 		final String email = "New email";
@@ -235,7 +237,7 @@ public class UserServiceTest {
 		userServiceImpl.update(userImpl);
 
 		/** check user email */
-		userImpl = (UserImpl) userServiceImpl.getById(userImpl.getId());
+		userImpl = (User) userServiceImpl.getById(userImpl.getId());
 		assertEquals(userImpl.getEmail(), email);
 	}
 
@@ -253,7 +255,7 @@ public class UserServiceTest {
 		token.setType(TokenType.VERIFICATION);
 		token.setToken(tokenServiceImpl.generateToken());
 
-		UserImpl user = (UserImpl) userServiceImpl.create("Vasia",
+		User user = (User) userServiceImpl.create("Vasia",
 				"vasia@mail.ru");
 
 		token.setUser(user);
@@ -262,13 +264,13 @@ public class UserServiceTest {
 		tokens.add(token);
 		user.setTokens(tokens);
 
-		user = (UserImpl) userServiceImpl.update(user);
+		user = (User) userServiceImpl.update(user);
 
 		/** verify token */
 		userServiceImpl.verify(token.getToken());
 
 		/** user should be active */
-		UserImpl resultUser = userRepository.findById(user.getId());
+		User resultUser = userRepository.findById(user.getId());
 		assertTrue(resultUser.isActive());
 
 		/** token should be deleted */

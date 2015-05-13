@@ -11,22 +11,23 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "permission", uniqueConstraints = { @UniqueConstraint(columnNames = "type") })
+@Table(name = "permission")
+//@Table(name = "permission", uniqueConstraints = { @UniqueConstraint(columnNames = "type") })
 public class Permission extends AbstractEntity {
 	@Column(name = "level")
 	private byte level;
-	@Column(name = "type", unique = true, nullable = false)
+	@Column(name = "type", nullable = false)
 	private String type;
 	@Column(name = "object_id")
 	private UUID objectId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = true)
-	private UserImpl user;
+	private User user;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "role_id", nullable = true)
-	private RoleImpl role;
+	private Role role;
 
 	public byte getLevel() {
 		return level;
@@ -36,11 +37,11 @@ public class Permission extends AbstractEntity {
 		this.level = level;
 	}
 
-	public RoleImpl getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(RoleImpl role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 
@@ -60,11 +61,11 @@ public class Permission extends AbstractEntity {
 		this.objectId = objectId;
 	}
 
-	public UserImpl getUser() {
+	public User getUser() {
 		return user;
 	}
 
-	public void setUser(UserImpl user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 }

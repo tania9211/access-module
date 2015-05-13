@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.UUID;
 
 import org.access.impl.entity.Permission;
-import org.access.impl.entity.RoleImpl;
-import org.access.impl.entity.UserImpl;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,11 +11,13 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PermissionRepository extends JpaRepository<Permission, UUID> {
+	public Permission findById(UUID id);
+	
 	public List<Permission> findByObjectId(UUID objectId);
 
 	public List<Permission> findByLevel(byte level);
 
-	public Permission findByType(String type);
+	public List<Permission> findByType(String type);
 
 	@Query("select p from Permission p inner join p.user u where"
 			+ " p.type = :type and (not p.level < :level) and u.id = :userId and u.isActive = true and p.objectId is null")

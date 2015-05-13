@@ -14,8 +14,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.access.api.entity.User;
-import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -25,7 +23,7 @@ import org.hibernate.annotations.Where;
 		@UniqueConstraint(columnNames = "nickname") })
 @SQLDelete(sql = "UPDATE \"user\" SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = 'false'")
-public class UserImpl extends AbstractEntity implements User {
+public class User extends AbstractEntity{
 	@Column(name = "hash", nullable = false)
 	private String hash;
 
@@ -43,7 +41,7 @@ public class UserImpl extends AbstractEntity implements User {
 
 	@ManyToMany(cascade = CascadeType.PERSIST)
 	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id", nullable = false, updatable = false) }, inverseJoinColumns = { @JoinColumn(name = "role_id", nullable = false, updatable = false) })
-	private Set<RoleImpl> roles = new HashSet<RoleImpl>();
+	private Set<Role> roles = new HashSet<Role>();
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Token> tokens = new HashSet<Token>();
@@ -83,11 +81,11 @@ public class UserImpl extends AbstractEntity implements User {
 		this.salt = salt;
 	}
 
-	public Set<RoleImpl> getRoles() {
+	public Set<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(Set<RoleImpl> roles) {
+	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
 

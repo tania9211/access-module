@@ -2,9 +2,10 @@ package org.access.api;
 
 import java.util.UUID;
 
-import org.access.api.entity.Role;
-import org.access.api.entity.User;
 import org.access.api.exception.DataInsertionException;
+import org.access.impl.entity.Permission;
+import org.access.impl.entity.Role;
+import org.access.impl.entity.User;
 
 public interface PermissionService {
 	/**
@@ -21,7 +22,7 @@ public interface PermissionService {
 	 * @throws DataInsertionException
 	 *             If role equals to null.
 	 */
-	public void setRolePermission(Role role, Level level, UUID objectId,
+	public Permission setRolePermission(Role role, Level level, UUID objectId,
 			String type) throws DataInsertionException;
 
 	/**
@@ -38,7 +39,7 @@ public interface PermissionService {
 	 * @throws DataInsertionException
 	 *             If role equals to null.
 	 */
-	public void setRolePermission(String roleName, Level level, UUID objectId,
+	public Permission setRolePermission(String roleName, Level level, UUID objectId,
 			String type) throws DataInsertionException;
 
 	/**
@@ -55,7 +56,7 @@ public interface PermissionService {
 	 * @throws DataInsertionException
 	 *             If user equals to null or user not active.
 	 */
-	public void setUserPermission(UUID userId, Level level, UUID objectId,
+	public Permission setUserPermission(UUID userId, Level level, UUID objectId,
 			String type) throws DataInsertionException;
 
 	/**
@@ -72,7 +73,7 @@ public interface PermissionService {
 	 * @throws DataInsertionException
 	 *             If user equals to null or user not active.
 	 */
-	public void setUserPermission(User user, Level level, UUID objectId,
+	public Permission setUserPermission(User user, Level level, UUID objectId,
 			String type) throws DataInsertionException;
 
 	/**

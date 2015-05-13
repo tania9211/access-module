@@ -3,8 +3,8 @@ package org.access.api;
 import java.util.List;
 import java.util.UUID;
 
-import org.access.api.entity.User;
 import org.access.api.exception.DataInsertionException;
+import org.access.impl.entity.User;
 
 public interface UserService<T extends User> {
 	/**

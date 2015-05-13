@@ -3,8 +3,7 @@ package org.access.api;
 import java.util.List;
 import java.util.UUID;
 
-import org.access.api.entity.Role;
-import org.access.api.exception.DataInsertionException;
+import org.access.impl.entity.Role;
 
 public interface RoleService<T extends Role> {
 	/**

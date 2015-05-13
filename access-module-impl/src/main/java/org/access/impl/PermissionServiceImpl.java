@@ -2,17 +2,14 @@ package org.access.impl;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import org.access.api.Level;
 import org.access.api.PermissionService;
-import org.access.api.entity.Role;
-import org.access.api.entity.User;
 import org.access.api.exception.DataInsertionException;
 import org.access.impl.entity.Permission;
-import org.access.impl.entity.RoleImpl;
-import org.access.impl.entity.UserImpl;
+import org.access.impl.entity.Role;
+import org.access.impl.entity.User;
 import org.access.impl.repository.PermissionRepository;
 import org.access.impl.repository.RoleRepository;
 import org.access.impl.repository.UserRepository;
@@ -31,20 +28,20 @@ public class PermissionServiceImpl implements PermissionService {
 	private RoleRepository roleRepository;
 
 	@Override
-	public void setRolePermission(Role role, Level level, UUID objectId,
+	public Permission setRolePermission(Role role, Level level, UUID objectId,
 			String type) throws DataInsertionException {
 		if (role == null)
 			throw new DataInsertionException("Role is null");
 
-		setRolePermission(((RoleImpl) role).getName(), level, objectId, type);
+		return setRolePermission(((Role) role).getName(), level, objectId, type);
 	}
 
 	@Override
-	public void setRolePermission(String roleName, Level level, UUID objectId,
+	public Permission setRolePermission(String roleName, Level level, UUID objectId,
 			String type) throws DataInsertionException {
 		final Permission permission = buildPermission(level.getValue(),
 				objectId, type);
-		final RoleImpl role = roleRepository.findByName(roleName);
+		final Role role = roleRepository.findByName(roleName);
 		if (role == null)
 			throw new DataInsertionException("Can not find role by roleName");
 
@@ -61,21 +58,21 @@ public class PermissionServiceImpl implements PermissionService {
 		}
 		if (previousPermission != null
 				&& previousPermission.getLevel() >= level.getValue())
-			return;
+			return previousPermission;
 
 		if (previousPermission != null
 				&& previousPermission.getLevel() < level.getValue())
 			permissionRepository.delete(previousPermission);
 
-		permissionRepository.save(permission);
+		return permissionRepository.save(permission);
 	}
 
 	@Override
-	public void setUserPermission(UUID userId, Level level, UUID objectId,
+	public Permission setUserPermission(UUID userId, Level level, UUID objectId,
 			String type) throws DataInsertionException {
 		final Permission permission = buildPermission(level.getValue(),
 				objectId, type);
-		final UserImpl user = userRepository.findById(userId);
+		final User user = userRepository.findById(userId);
 
 		if (user == null)
 			throw new DataInsertionException("User is null");
@@ -94,22 +91,22 @@ public class PermissionServiceImpl implements PermissionService {
 		}
 		if (previousPermission != null
 				&& previousPermission.getLevel() >= level.getValue())
-			return;
+			return previousPermission;  
 
 		if (previousPermission != null
 				&& previousPermission.getLevel() < level.getValue())
 			permissionRepository.delete(previousPermission);
 
-		permissionRepository.save(permission);
+		return permissionRepository.save(permission);
 	}
 
 	@Override
-	public void setUserPermission(User user, Level level, UUID objectId,
+	public Permission setUserPermission(User user, Level level, UUID objectId,
 			String type) throws DataInsertionException {
 		if (user == null)
 			throw new DataInsertionException("User is null");
 
-		setUserPermission(((UserImpl) user).getId(), level, objectId, type);
+		return setUserPermission(((User) user).getId(), level, objectId, type);
 	}
 
 	@Override

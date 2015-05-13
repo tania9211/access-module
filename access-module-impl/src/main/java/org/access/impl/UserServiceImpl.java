@@ -2,15 +2,12 @@ package org.access.impl;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import org.access.api.TokenType;
 import org.access.api.UserService;
-import org.access.api.entity.User;
-import org.access.api.exception.DataInsertionException;
 import org.access.impl.entity.Token;
-import org.access.impl.entity.UserImpl;
+import org.access.impl.entity.User;
 import org.access.impl.repository.TokenRepository;
 import org.access.impl.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +23,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User create(String nickname, String email) {
-		final UserImpl user = new UserImpl();
+		final User user = new User();
 		
 		user.setHash("1234");
 		user.setSalt("1234");
@@ -40,12 +37,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User update(User user) {
-		return userRepository.save((UserImpl) user);
+		return userRepository.save((User) user);
 	}
 
 	@Override
 	public void delete(User user) {
-		userRepository.delete((UserImpl) user);
+		userRepository.delete((User) user);
 	}
 
 	@Override
@@ -59,13 +56,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserImpl> list() {
+	public List<User> list() {
 		return userRepository.findAll();
 	}
 
 	@Override
 	public void verify(String token) {
-		final UserImpl userImpl = userRepository.findByToken(token);
+		final User userImpl = userRepository.findByToken(token);
 
 		/** check if token has verification type */
 		for (Iterator<Token> it = userImpl.getTokens().iterator(); it.hasNext();) {

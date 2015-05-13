@@ -15,7 +15,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
-import org.access.api.entity.Role;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -23,7 +22,7 @@ import org.hibernate.annotations.Where;
 @Table(name = "role", uniqueConstraints = { @UniqueConstraint(columnNames = "name") })
 @SQLDelete(sql="UPDATE role SET deleted = true WHERE id = ?")
 @Where(clause = "deleted = 'false'")
-public class RoleImpl extends AbstractEntity implements Role {
+public class Role extends AbstractEntity{
 	@Column(name = "name", unique = true, nullable = false)
 	private String name;
 	@Column(name = "creator_id", nullable = false)
@@ -33,7 +32,7 @@ public class RoleImpl extends AbstractEntity implements Role {
 	private Date date;
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
-	private Set<UserImpl> users = new HashSet<UserImpl>();
+	private Set<User> users = new HashSet<User>();
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
 	private Set<Permission> permissions = new HashSet<Permission>();
@@ -54,11 +53,11 @@ public class RoleImpl extends AbstractEntity implements Role {
 		this.creatorId = creatorId;
 	}
 
-	public Set<UserImpl> getUsers() {
+	public Set<User> getUsers() {
 		return users;
 	}
 
-	public void setUsers(Set<UserImpl> users) {
+	public void setUsers(Set<User> users) {
 		this.users = users;
 	}
 }

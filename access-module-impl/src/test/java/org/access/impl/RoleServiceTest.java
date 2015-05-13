@@ -6,8 +6,8 @@ import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
-import org.access.impl.entity.RoleImpl;
-import org.access.impl.entity.UserImpl;
+import org.access.impl.entity.Role;
+import org.access.impl.entity.User;
 import org.access.impl.repository.RoleRepository;
 import org.access.impl.repository.UserRepository;
 import org.junit.Before;
@@ -37,11 +37,11 @@ public class RoleServiceTest {
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
 
-	private UserImpl user;
+	private User user;
 
 	@Before
 	public void init() {
-		user = new UserImpl();
+		user = new User();
 		user.setDeleted(false);
 		user.setEmail("tania@mail.ru");
 		user.setHash("2345");
@@ -57,9 +57,9 @@ public class RoleServiceTest {
 	 * Create role and check all fields.
 	 */
 	public void testCreateRole() {
-		final RoleImpl roleImpl = (RoleImpl) roleServiceImpl.create("admin",
+		final Role roleImpl = (Role) roleServiceImpl.create("admin",
 				user.getId());
-		final RoleImpl roleImpl2 = roleRepository.findById(roleImpl.getId());
+		final Role roleImpl2 = roleRepository.findById(roleImpl.getId());
 
 		assertEquals(roleImpl.getId(), roleImpl2.getId());
 		assertEquals(roleImpl.getName(), roleImpl2.getName());
@@ -73,11 +73,11 @@ public class RoleServiceTest {
 	 * Update role and check all fields.
 	 */
 	public void testUpdateRole() {
-		RoleImpl roleImpl = (RoleImpl) roleServiceImpl.create("admin",
+		Role roleImpl = (Role) roleServiceImpl.create("admin",
 				user.getId());
 		roleImpl.setName("user");
-		roleImpl = (RoleImpl) roleServiceImpl.update(roleImpl);
-		final RoleImpl roleImpl2 = roleRepository.findById(roleImpl.getId());
+		roleImpl = (Role) roleServiceImpl.update(roleImpl);
+		final Role roleImpl2 = roleRepository.findById(roleImpl.getId());
 
 		assertEquals(roleImpl.getId(), roleImpl2.getId());
 		assertEquals(roleImpl.getName(), roleImpl2.getName());
@@ -98,19 +98,19 @@ public class RoleServiceTest {
 	public void testGetRole() {
 		final String roleName = "admin";
 
-		RoleImpl roleImpl = (RoleImpl) roleServiceImpl.create(roleName,
+		Role roleImpl = (Role) roleServiceImpl.create(roleName,
 				user.getId());
 
-		RoleImpl roleImpl2 = (RoleImpl) roleServiceImpl.getById(roleImpl
+		Role roleImpl2 = (Role) roleServiceImpl.getById(roleImpl
 				.getId());
 		assertEquals(roleImpl2.getName(), roleName);
 
-		roleImpl2 = (RoleImpl) roleServiceImpl.getByName(roleName);
+		roleImpl2 = (Role) roleServiceImpl.getByName(roleName);
 		assertEquals(roleImpl2.getId(), roleImpl.getId());
 
 		/** check if list include role */
 		roleImpl = null;
-		final List<RoleImpl> list = roleServiceImpl.list();
+		final List<Role> list = roleServiceImpl.list();
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getName().equals(roleName))
 				roleImpl = list.get(i);
@@ -127,21 +127,21 @@ public class RoleServiceTest {
 	 */
 	public void testDeleteRole() {
 		final String roleName = "admin";
-		RoleImpl roleImpl = (RoleImpl) roleServiceImpl.create(roleName,
+		Role roleImpl = (Role) roleServiceImpl.create(roleName,
 				user.getId());
 
 		roleServiceImpl.delete(roleImpl);
 
-		RoleImpl roleImpl2 = (RoleImpl) roleServiceImpl.getById(roleImpl
+		Role roleImpl2 = (Role) roleServiceImpl.getById(roleImpl
 				.getId());
 		assertNull(roleImpl2);
 
-		roleImpl2 = (RoleImpl) roleServiceImpl.getByName(roleName);
+		roleImpl2 = (Role) roleServiceImpl.getByName(roleName);
 		assertNull(roleImpl2);
 
 		/** check if list include role */
 		roleImpl2 = null;
-		final List<RoleImpl> list = roleServiceImpl.list();
+		final List<Role> list = roleServiceImpl.list();
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getName() == roleName)
 				roleImpl2 = list.get(i);
@@ -160,10 +160,10 @@ public class RoleServiceTest {
 
 		expectedException.expect(DataIntegrityViolationException.class);
 
-		RoleImpl roleImpl = (RoleImpl) roleServiceImpl.create(roleName,
+		Role roleImpl = (Role) roleServiceImpl.create(roleName,
 				user.getId());
 
-		RoleImpl roleImpl2 = (RoleImpl) roleServiceImpl.create(roleName,
+		Role roleImpl2 = (Role) roleServiceImpl.create(roleName,
 				user.getId());
 
 	}
@@ -179,10 +179,10 @@ public class RoleServiceTest {
 
 		expectedException.expect(DataIntegrityViolationException.class);
 
-		RoleImpl roleImpl = (RoleImpl) roleServiceImpl.create(roleName,
+		Role roleImpl = (Role) roleServiceImpl.create(roleName,
 				user.getId());
 
-		RoleImpl roleImpl2 = (RoleImpl) roleServiceImpl.create("user",
+		Role roleImpl2 = (Role) roleServiceImpl.create("user",
 				user.getId());
 
 		roleImpl2.setName("admin");
