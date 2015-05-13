@@ -1,5 +1,5 @@
 package org.access.api;
 
 public enum TokenType {
-	VERIFICATION;
+	VERIFICATION , AUDENTIFICATION;
 }

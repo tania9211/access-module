@@ -3,7 +3,9 @@ package org.access.impl;
 import java.util.UUID;
 
 import org.access.api.TokenService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class TokenServiceImpl implements TokenService {
 
 	/**

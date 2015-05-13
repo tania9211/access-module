@@ -10,10 +10,12 @@ import javax.persistence.UniqueConstraint;
 
 import org.access.api.TokenType;
 import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name = "token", uniqueConstraints = { @UniqueConstraint(columnNames = "token") })
+@Table(name = "token", uniqueConstraints = { @UniqueConstraint(columnNames = "token")})
 @SQLDelete(sql="UPDATE token SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = 'false'")
 public class Token extends AbstractEntity {
 	@Column(name = "type", nullable = false)
 	private TokenType type;

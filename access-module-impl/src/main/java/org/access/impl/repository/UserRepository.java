@@ -10,11 +10,12 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserImpl, UUID> {
-	//@Query("select u from UserImpl u where u.email = :email and u.deleted = false")
 	public UserImpl findByEmail(String email);
 
 	public UserImpl findByNickname(String nickname);
 
-//	@Query("select u from UserImpl u where u.id = :id and u.deleted = false")
 	public UserImpl findById(UUID id);
+
+	@Query("select u from UserImpl u inner join u.tokens t where t.token = :token")
+	public UserImpl findByToken(@Param("token") String token);
 }

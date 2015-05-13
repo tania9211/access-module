@@ -1,12 +1,16 @@
 package org.access.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.access.api.TokenType;
+import org.access.api.annotation.Transactional;
+import org.access.impl.entity.Token;
 import org.access.impl.entity.UserImpl;
+import org.access.impl.repository.TokenRepository;
 import org.access.impl.repository.UserRepository;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,9 +25,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @ContextConfiguration(locations = "classpath:test_spring_config.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-// @Transactional
-// @TransactionConfiguration(transactionManager = "transactionManager",
-// defaultRollback = false)
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class UserServiceTest {
 	@Autowired
@@ -31,6 +32,12 @@ public class UserServiceTest {
 
 	@Autowired
 	private UserServiceImpl userServiceImpl;
+
+	@Autowired
+	private TokenRepository tokenRepository;
+
+	@Autowired
+	private TokenServiceImpl tokenServiceImpl;
 
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();
@@ -116,24 +123,21 @@ public class UserServiceTest {
 				"vasia@mail.ru");
 
 		userServiceImpl.delete(user);
-		
-	//	final UserImpl user1 = (UserImpl) userServiceImpl.create("Vasia12",
-	//			"vasia23@mail.ru");
 
-	/*	UserImpl resultUser = (UserImpl) userServiceImpl.getByEmail(email);
+		UserImpl resultUser = (UserImpl) userServiceImpl.getByEmail(email);
 		assertNull(resultUser);
 
 		resultUser = (UserImpl) userServiceImpl.getById(user.getId());
-		assertNull(resultUser);*/
+		assertNull(resultUser);
 
 		/** check if list include user */
-	/*	resultUser = null;
+		resultUser = null;
 		final List<UserImpl> list = userServiceImpl.list();
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).getId().equals(user.getId()))
 				resultUser = list.get(i);
 		}
-		assertNull(resultUser);*/
+		assertNull(resultUser);
 	}
 
 	@Test
@@ -235,4 +239,40 @@ public class UserServiceTest {
 		assertEquals(userImpl.getEmail(), email);
 	}
 
+	@Test
+	/**
+	 * Create token and set token to user. 
+	 * Verify user.
+	 * Check user and token after verifying.
+	 * 
+	 * @result user should be active and token should be deleted.
+	 */
+	public void testUserVerify() {
+		/** create token and set token to user */
+		final Token token = new Token();
+		token.setType(TokenType.VERIFICATION);
+		token.setToken(tokenServiceImpl.generateToken());
+
+		UserImpl user = (UserImpl) userServiceImpl.create("Vasia",
+				"vasia@mail.ru");
+
+		token.setUser(user);
+		tokenRepository.save(token);
+		Set<Token> tokens = new HashSet<Token>();
+		tokens.add(token);
+		user.setTokens(tokens);
+
+		user = (UserImpl) userServiceImpl.update(user);
+
+		/** verify token */
+		userServiceImpl.verify(token.getToken());
+
+		/** user should be active */
+		UserImpl resultUser = userRepository.findById(user.getId());
+		assertTrue(resultUser.isActive());
+
+		/** token should be deleted */
+		Token resultToken = tokenRepository.findByToken(token.getToken());
+		assertNull(resultToken);
+	}
 }

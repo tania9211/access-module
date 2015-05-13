@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 import org.access.api.entity.User;
+import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -22,9 +23,8 @@ import org.hibernate.annotations.Where;
 @Table(name = "\"user\"", uniqueConstraints = {
 		@UniqueConstraint(columnNames = "email"),
 		@UniqueConstraint(columnNames = "nickname") })
-// @SQLDelete(sql="UPDATE \"user\" SET deleted = true WHERE id = ?")
 @SQLDelete(sql = "UPDATE \"user\" SET deleted = true WHERE id = ?")
-//@Where(clause = "deleted = false")
+@Where(clause = "deleted = 'false'")
 public class UserImpl extends AbstractEntity implements User {
 	@Column(name = "hash", nullable = false)
 	private String hash;
@@ -48,8 +48,19 @@ public class UserImpl extends AbstractEntity implements User {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private Set<Token> tokens = new HashSet<Token>();
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	private Set<Permission> permissions = new HashSet<Permission>();
+
 	public boolean isActive() {
 		return isActive;
+	}
+
+	public Set<Token> getTokens() {
+		return tokens;
+	}
+
+	public void setTokens(Set<Token> tokens) {
+		this.tokens = tokens;
 	}
 
 	public void setActive(boolean isActive) {
@@ -71,9 +82,6 @@ public class UserImpl extends AbstractEntity implements User {
 	public void setSalt(String salt) {
 		this.salt = salt;
 	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-	private Set<Permission> permissions = new HashSet<Permission>();
 
 	public Set<RoleImpl> getRoles() {
 		return roles;

@@ -1,11 +1,15 @@
 package org.access.impl;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
+import org.access.api.TokenType;
 import org.access.api.UserService;
 import org.access.api.entity.User;
 import org.access.api.exception.DataInsertionException;
+import org.access.impl.entity.Token;
 import org.access.impl.entity.UserImpl;
 import org.access.impl.repository.TokenRepository;
 import org.access.impl.repository.UserRepository;
@@ -23,13 +27,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User create(String nickname, String email) {
 		final UserImpl user = new UserImpl();
-		final long time = System.currentTimeMillis();
-		user.setDateCreated(time);
-		user.setDateModified(time);
-		user.setDeleted(false);
+		
 		user.setHash("1234");
 		user.setSalt("1234");
-		user.setVersion(1L);
 
 		user.setNickname(nickname);
 		user.setEmail(email);
@@ -65,7 +65,17 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void verify(String token) {
-		// ((UserImpl) user).setActive(true);
-		// / tokenRepository.delete(tokenRepository.findByToken(token));
+		final UserImpl userImpl = userRepository.findByToken(token);
+
+		/** check if token has verification type */
+		for (Iterator<Token> it = userImpl.getTokens().iterator(); it.hasNext();) {
+			Token tempToken = it.next();
+			if (tempToken.getToken().equals(token)
+					&& tempToken.getType().equals(TokenType.VERIFICATION)) {
+				/** set user active and delete token */
+				userImpl.setActive(true);
+				tokenRepository.delete(tempToken);
+			}
+		}
 	}
 }

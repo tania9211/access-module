@@ -4,13 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-import org.access.api.exception.DataInsertionException;
 import org.access.impl.entity.RoleImpl;
 import org.access.impl.entity.UserImpl;
+import org.access.impl.repository.RoleRepository;
 import org.access.impl.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Rule;
@@ -22,7 +20,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(org.springframework.test.context.junit4.SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:test_spring_config.xml")
@@ -30,6 +27,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class RoleServiceTest {
 	@Autowired
 	private RoleServiceImpl roleServiceImpl;
+
+	@Autowired
+	private RoleRepository roleRepository;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -42,14 +42,10 @@ public class RoleServiceTest {
 	@Before
 	public void init() {
 		user = new UserImpl();
-	//	final long time = System.currentTimeMillis();
-//		user.setDateCreate(time);
-	//	user.setDateModify(time);
 		user.setDeleted(false);
 		user.setEmail("tania@mail.ru");
 		user.setHash("2345");
 		user.setSalt("4567");
-		user.setVersion(2L);
 		user.setNickname("kitty99");
 		user.setActive(true);
 
@@ -57,21 +53,37 @@ public class RoleServiceTest {
 	}
 
 	@Test
-	public void test() {
+	/**
+	 * Create role and check all fields.
+	 */
+	public void testCreateRole() {
+		final RoleImpl roleImpl = (RoleImpl) roleServiceImpl.create("admin",
+				user.getId());
+		final RoleImpl roleImpl2 = roleRepository.findById(roleImpl.getId());
+
+		assertEquals(roleImpl.getId(), roleImpl2.getId());
+		assertEquals(roleImpl.getName(), roleImpl2.getName());
+		assertEquals(roleImpl.getCreatorId(), roleImpl2.getCreatorId());
+		assertEquals(roleImpl.getVersion(), roleImpl2.getVersion());
+		assertEquals(roleImpl.getUsers().size(), roleImpl2.getUsers().size());
+	}
+
+	@Test
+	/**
+	 * Update role and check all fields.
+	 */
+	public void testUpdateRole() {
 		RoleImpl roleImpl = (RoleImpl) roleServiceImpl.create("admin",
 				user.getId());
+		roleImpl.setName("user");
+		roleImpl = (RoleImpl) roleServiceImpl.update(roleImpl);
+		final RoleImpl roleImpl2 = roleRepository.findById(roleImpl.getId());
 
-		RoleImpl roleImpl1 = (RoleImpl) roleServiceImpl.create("user",
-				user.getId());
-		
-		roleServiceImpl.update(roleImpl1);
-		
-	//	roleServiceImpl.delete(roleImpl1);
-		
-		RoleImpl roleImpl2 = (RoleImpl) roleServiceImpl.create("user12",
-				user.getId());
-		
-		
+		assertEquals(roleImpl.getId(), roleImpl2.getId());
+		assertEquals(roleImpl.getName(), roleImpl2.getName());
+		assertEquals(roleImpl.getCreatorId(), roleImpl2.getCreatorId());
+		assertEquals(roleImpl.getVersion(), roleImpl2.getVersion());
+		assertEquals(roleImpl.getUsers().size(), roleImpl2.getUsers().size());
 	}
 
 	@Test

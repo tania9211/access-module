@@ -1,5 +1,6 @@
 package org.access.impl.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -11,6 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLInsert;
@@ -24,9 +26,7 @@ import org.springframework.data.annotation.CreatedDate;
 // "UPDATE AbstractEntity SET dateCreated = CURRENT_TIMESTAMP WHERE id = ?")
 // @SQLUpdate(sql =
 // "UPDATE AbstractEntity SET dateModified = CURRENT_TIMESTAMP WHERE id = ?")
-@SQLDelete(sql = "UPDATE AbstractEntity SET deleted = true WHERE id = ?")
-//@Where(clause = "deleted = false")
-public class AbstractEntity {
+public class AbstractEntity implements Serializable{
 	@Id
 	@GeneratedValue(generator = "uuid")
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -35,32 +35,32 @@ public class AbstractEntity {
 	private UUID id;
 
 	// @Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "date_created", nullable = false)
-	private long dateCreated;
+	@Column(name = "date_created")
+	private Date dateCreated;
 
 	// @Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "date_modified", nullable = false)
-	private long dateModified;
+	@Column(name = "date_modified")
+	private Date dateModified;
 
-	@Column(name = "version", nullable = false)
+	@Column(name = "version")
 	private long version;
 
 	@Column(name = "deleted")
 	private boolean deleted;
 
-	public long getDateCreated() {
+	public Date getDateCreated() {
 		return dateCreated;
 	}
 
-	public void setDateCreated(long dateCreate) {
+	public void setDateCreated(Date dateCreate) {
 		this.dateCreated = dateCreate;
 	}
 
-	public long getDateModified() {
+	public Date getDateModified() {
 		return dateModified;
 	}
 
-	public void setDateModified(long dateModify) {
+	public void setDateModified(Date dateModify) {
 		this.dateModified = dateModify;
 	}
 
