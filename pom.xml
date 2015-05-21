@@ -12,7 +12,7 @@
 
 	<modules>
 		<module>access-module-impl</module>
-		<module>access-module-api</module>
+		<module>web-angen</module>
 	</modules>
 
 	<properties>
