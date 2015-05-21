@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
+import org.access.ApplicationConfig;
 import org.access.impl.entity.Role;
 import org.access.impl.entity.User;
 import org.access.impl.repository.RoleRepository;
@@ -22,7 +23,7 @@ import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 
 @RunWith(org.springframework.test.context.junit4.SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:test_spring_config.xml")
+@ContextConfiguration(classes = ApplicationConfig.class)
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 public class RoleServiceTest {
 	@Autowired

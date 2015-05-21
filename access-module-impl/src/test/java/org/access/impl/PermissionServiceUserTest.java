@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
+import org.access.ApplicationConfig;
 import org.access.api.Level;
 import org.access.api.exception.DataInsertionException;
 import org.access.impl.entity.Permission;
@@ -32,7 +33,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-@ContextConfiguration(locations = "classpath:test_spring_config.xml")
+@ContextConfiguration(classes = ApplicationConfig.class)
 public class PermissionServiceUserTest {
 	@Autowired
 	private RoleRepository roleRepository;

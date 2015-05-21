@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.access.ApplicationConfig;
 import org.access.api.Level;
 import org.access.api.exception.DataInsertionException;
 import org.access.impl.entity.Permission;
@@ -30,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-@ContextConfiguration(locations = "classpath:test_spring_config.xml")
+@ContextConfiguration(classes = ApplicationConfig.class)
 public class PermissionServiceRoleTest {
 	@Autowired
 	private RoleRepository roleRepository;
